@@ -1,0 +1,706 @@
+<!doctype html>
+<html>
+
+<head>
+    <script>
+        const LifeformBuildingType = {
+            // humans
+            residentialSector: 11_101,
+            biosphereFarm: 11_102,
+            researchCentre: 11_103,
+            academyOfSciences: 11_104,
+            neuroCalibrationCentre: 11_105,
+            highEnergySmelting: 11_106,
+            foodSilo: 11_107,
+            fusionPoweredProduction: 11_108,
+            skyscraper: 11_109,
+            biotechLab: 11_110,
+            metropolis: 11_111,
+            planetaryShield: 11_112,
+
+            // rocktal
+            meditationEnclave: 12_101,
+            crystalFarm: 12_102,
+            runeTechnologium: 12_103,
+            runeForge: 12_104,
+            oriktorium: 12_105,
+            magmaForge: 12_106,
+            disruptionChamber: 12_107,
+            megalith: 12_108,
+            crystalRefinery: 12_109,
+            deuteriumSynthesiser: 12_110,
+            mineralResearchCentre: 12_111,
+            advancedRecyclingPlant: 12_112,
+
+            // mechas
+            assemblyLine: 13_101,
+            fusionCellFactory: 13_102,
+            roboticsResearchCentre: 13_103,
+            updateNetwork: 13_104,
+            quantumComputerCentre: 13_105,
+            automatisedAssemblyCentre: 13_106,
+            highPerformanceTransformer: 13_107,
+            microchipAssemblyLine: 13_108,
+            productionAssemblyHall: 13_109,
+            highPerformanceSynthesiser: 13_110,
+            chipMassProduction: 13_111,
+            nanoRepairBots: 13_112,
+
+            // kaelesh
+            sanctuary: 14_101,
+            antimatterCondenser: 14_102,
+            vortexChamber: 14_103,
+            hallsOfRealisation: 14_104,
+            forumOfTranscendence: 14_105,
+            antimatterConvector: 14_106,
+            cloningLaboratory: 14_107,
+            chrysalisAccelerator: 14_108,
+            bioModifier: 14_109,
+            psionicModulator: 14_110,
+            shipManufacturingHall: 14_111,
+            supraRefractor: 14_112,
+        };
+        const LifeformTechnologyType = {
+            // humans
+            intergalacticEnvoys: 11_201,
+            highPerformanceExtractors: 11_202,
+            fusionDrives: 11_203,
+            stealthFieldGenerator: 11_204,
+            orbitalDen: 11_205,
+            researchAI: 11_206,
+            highPerformanceTerraformer: 11_207,
+            enhancedProductionTechnologies: 11_208,
+            lightFighterMkII: 11_209,
+            cruiserMkII: 11_210,
+            improvedLabTechnology: 11_211,
+            plasmaTerraformer: 11_212,
+            lowTemperatureDrives: 11_213,
+            bomberMkII: 11_214,
+            destroyerMkII: 11_215,
+            battlecruiserMkII: 11_216,
+            robotAssistants: 11_217,
+            supercomputer: 11_218,
+
+            // rocktal
+            volcanicBatteries: 12_201,
+            acousticScanning: 12_202,
+            highEnergyPumpSystems: 12_203,
+            cargoHoldExpansion_CivilianShips: 12_204,
+            magmaPoweredProduction: 12_205,
+            geothermalPowerPlants: 12_206,
+            depthSounding: 12_207,
+            ionCrystalEnhancement_heavyFighter: 12_208,
+            improvedStellarator: 12_209,
+            hardenedDiamondDrillHeads: 12_210,
+            seismicMiningTechnology: 12_211,
+            magmaPoweredPumpSystems: 12_212,
+            ionCrystalModules: 12_213,
+            optimisedSiloConstructionMethod: 12_214,
+            diamondEnergyTransmitter: 12_215,
+            obsidianShieldReinforcement: 12_216,
+            runeShields: 12_217,
+            rocktalCollectorEnhancement: 12_218,
+
+            // mechas
+            catalyserTechnology: 13_201,
+            plasmaDrive: 13_202,
+            efficiencyModule: 13_203,
+            depotAI: 13_204,
+            generalOverhaul_lightFighter: 13_205,
+            automatedTransportLines: 13_206,
+            improvedDroneAI: 13_207,
+            experimentalRecyclingTechnology: 13_208,
+            generalOverhaul_cruiser: 13_209,
+            slingshotAutopilot: 13_210,
+            highTemperatureSuperconductors: 13_211,
+            generalOverhaul_battleship: 13_212,
+            artificialSwarmIntelligence: 13_213,
+            generalOverhaul_battlecruiser: 13_214,
+            generalOverhaul_bomber: 13_215,
+            generalOverhaul_destroyer: 13_216,
+            experimentalWeaponsTechnology: 13_217,
+            mechanGeneralEnhancement: 13_218,
+
+            // kaelesh
+            heatRecovery: 14_201,
+            sulphideProcess: 14_202,
+            psionicNetwork: 14_203,
+            telekineticTractorBeam: 14_204,
+            enhancedSensorTechnology: 14_205,
+            neuromodalCompressor: 14_206,
+            neuroInterface: 14_207,
+            interplanetaryAnalysisNetwork: 14_208,
+            overclocking_heavyFighter: 14_209,
+            telekineticDrive: 14_210,
+            sixthSense: 14_211,
+            psychoharmoniser: 14_212,
+            efficientSwarmIntelligence: 14_213,
+            overclocking_largeCargo: 14_214,
+            gravitationSensors: 14_215,
+            overclocking_battleship: 14_216,
+            psionicShieldMatrix: 14_217,
+            kaeleshDiscovererEnhancement: 14_218,
+        }
+
+        const imageMap = {
+            [LifeformBuildingType.residentialSector]: 'residential-sector',
+            [LifeformBuildingType.biosphereFarm]: 'biosphere-farm',
+            [LifeformBuildingType.researchCentre]: 'research-centre',
+            [LifeformBuildingType.academyOfSciences]: 'academy-of-sciences',
+            [LifeformBuildingType.neuroCalibrationCentre]: 'neuro-calibration-centre',
+            [LifeformBuildingType.highEnergySmelting]: 'high-energy-smelting',
+            [LifeformBuildingType.foodSilo]: 'food-silo',
+            [LifeformBuildingType.fusionPoweredProduction]: 'fusion-powered-production',
+            [LifeformBuildingType.skyscraper]: 'skyscraper',
+            [LifeformBuildingType.biotechLab]: 'biotech-lab',
+            [LifeformBuildingType.metropolis]: 'metropolis',
+            [LifeformBuildingType.planetaryShield]: 'planetary-shield',
+
+            [LifeformBuildingType.meditationEnclave]: 'meditation-enclave',
+            [LifeformBuildingType.crystalFarm]: 'crystal-farm',
+            [LifeformBuildingType.runeTechnologium]: 'rune-technologium',
+            [LifeformBuildingType.runeForge]: 'rune-forge',
+            [LifeformBuildingType.oriktorium]: 'oriktorium',
+            [LifeformBuildingType.magmaForge]: 'magma-forge',
+            [LifeformBuildingType.disruptionChamber]: 'disruption-chamber',
+            [LifeformBuildingType.megalith]: 'megalith',
+            [LifeformBuildingType.crystalRefinery]: 'crystal-refinery',
+            [LifeformBuildingType.deuteriumSynthesiser]: 'deuterium-synthesiser',
+            [LifeformBuildingType.mineralResearchCentre]: 'mineral-research-centre',
+            [LifeformBuildingType.advancedRecyclingPlant]: 'advanced-recycling-plant',
+
+            [LifeformBuildingType.assemblyLine]: 'assembly-line',
+            [LifeformBuildingType.fusionCellFactory]: 'fusion-cell-factory',
+            [LifeformBuildingType.roboticsResearchCentre]: 'robotics-research-centre',
+            [LifeformBuildingType.updateNetwork]: 'update-network',
+            [LifeformBuildingType.quantumComputerCentre]: 'quantum-computer-centre',
+            [LifeformBuildingType.automatisedAssemblyCentre]: 'automatised-assembly-centre',
+            [LifeformBuildingType.highPerformanceTransformer]: 'high-performance-transformer',
+            [LifeformBuildingType.microchipAssemblyLine]: 'microchip-assembly-line',
+            [LifeformBuildingType.productionAssemblyHall]: 'production-assembly-hall',
+            [LifeformBuildingType.highPerformanceSynthesiser]: 'high-performance-synthesiser',
+            [LifeformBuildingType.chipMassProduction]: 'chip-mass-production',
+            [LifeformBuildingType.nanoRepairBots]: 'nano-repair-bots',
+
+            [LifeformBuildingType.sanctuary]: 'sanctuary',
+            [LifeformBuildingType.antimatterCondenser]: 'antimatter-condenser',
+            [LifeformBuildingType.vortexChamber]: 'vortex-chamber',
+            [LifeformBuildingType.hallsOfRealisation]: 'halls-of-realisation',
+            [LifeformBuildingType.forumOfTranscendence]: 'forum-of-transcendence',
+            [LifeformBuildingType.antimatterConvector]: 'antimatter-convector',
+            [LifeformBuildingType.cloningLaboratory]: 'cloning-laboratory',
+            [LifeformBuildingType.chrysalisAccelerator]: 'chrysalis-accelerator',
+            [LifeformBuildingType.bioModifier]: 'bio-modifier',
+            [LifeformBuildingType.psionicModulator]: 'psionic-modulator',
+            [LifeformBuildingType.shipManufacturingHall]: 'ship-manufacturing-hall',
+            [LifeformBuildingType.supraRefractor]: 'supra-refractor',
+
+
+            [LifeformTechnologyType.intergalacticEnvoys]: 'intergalactic-envoys',
+            [LifeformTechnologyType.highPerformanceExtractors]: 'high-performance-extractors',
+            [LifeformTechnologyType.fusionDrives]: 'fusion-drives',
+            [LifeformTechnologyType.stealthFieldGenerator]: 'stealth-field-generator',
+            [LifeformTechnologyType.orbitalDen]: 'orbital-den',
+            [LifeformTechnologyType.researchAI]: 'research-aI',
+            [LifeformTechnologyType.highPerformanceTerraformer]: 'high-performance-terraformer',
+            [LifeformTechnologyType.enhancedProductionTechnologies]: 'enhanced-production-technologies',
+            [LifeformTechnologyType.lightFighterMkII]: 'light-fighter-mk-iI',
+            [LifeformTechnologyType.cruiserMkII]: 'cruiser-mk-iI',
+            [LifeformTechnologyType.improvedLabTechnology]: 'improved-lab-technology',
+            [LifeformTechnologyType.plasmaTerraformer]: 'plasma-terraformer',
+            [LifeformTechnologyType.lowTemperatureDrives]: 'low-temperature-drives',
+            [LifeformTechnologyType.bomberMkII]: 'bomber-mk-iI',
+            [LifeformTechnologyType.destroyerMkII]: 'destroyer-mk-iI',
+            [LifeformTechnologyType.battlecruiserMkII]: 'battlecruiser-mk-iI',
+            [LifeformTechnologyType.robotAssistants]: 'robot-assistants',
+            [LifeformTechnologyType.supercomputer]: 'supercomputer',
+
+            [LifeformTechnologyType.volcanicBatteries]: 'volcanic-batteries',
+            [LifeformTechnologyType.acousticScanning]: 'acoustic-scanning',
+            [LifeformTechnologyType.highEnergyPumpSystems]: 'high-energy-pump-systems',
+            [LifeformTechnologyType.cargoHoldExpansion_CivilianShips]: 'cargo-hold-expansion_Civilian-ships',
+            [LifeformTechnologyType.magmaPoweredProduction]: 'magma-powered-production',
+            [LifeformTechnologyType.geothermalPowerPlants]: 'geothermal-power-plants',
+            [LifeformTechnologyType.depthSounding]: 'depth-sounding',
+            [LifeformTechnologyType.ionCrystalEnhancement_heavyFighter]: 'ion-crystal-enhancement_heavy-fighter',
+            [LifeformTechnologyType.improvedStellarator]: 'improved-stellarator',
+            [LifeformTechnologyType.hardenedDiamondDrillHeads]: 'hardened-diamond-drill-heads',
+            [LifeformTechnologyType.seismicMiningTechnology]: 'seismic-mining-technology',
+            [LifeformTechnologyType.magmaPoweredPumpSystems]: 'magma-powered-pump-systems',
+            [LifeformTechnologyType.ionCrystalModules]: 'ion-crystal-modules',
+            [LifeformTechnologyType.optimisedSiloConstructionMethod]: 'optimised-silo-construction-method',
+            [LifeformTechnologyType.diamondEnergyTransmitter]: 'diamond-energy-transmitter',
+            [LifeformTechnologyType.obsidianShieldReinforcement]: 'obsidian-shield-reinforcement',
+            [LifeformTechnologyType.runeShields]: 'rune-shields',
+            [LifeformTechnologyType.rocktalCollectorEnhancement]: 'rocktal-collector-enhancement',
+
+            [LifeformTechnologyType.catalyserTechnology]: 'catalyser-technology',
+            [LifeformTechnologyType.plasmaDrive]: 'plasma-drive',
+            [LifeformTechnologyType.efficiencyModule]: 'efficiency-module',
+            [LifeformTechnologyType.depotAI]: 'depot-aI',
+            [LifeformTechnologyType.generalOverhaul_lightFighter]: 'general-overhaul_light-fighter',
+            [LifeformTechnologyType.automatedTransportLines]: 'automated-transport-lines',
+            [LifeformTechnologyType.improvedDroneAI]: 'improved-drone-aI',
+            [LifeformTechnologyType.experimentalRecyclingTechnology]: 'experimental-recycling-technology',
+            [LifeformTechnologyType.generalOverhaul_cruiser]: 'general-overhaul_cruiser',
+            [LifeformTechnologyType.slingshotAutopilot]: 'slingshot-autopilot',
+            [LifeformTechnologyType.highTemperatureSuperconductors]: 'high-temperature-superconductors',
+            [LifeformTechnologyType.generalOverhaul_battleship]: 'general-overhaul_battleship',
+            [LifeformTechnologyType.artificialSwarmIntelligence]: 'artificial-swarm-intelligence',
+            [LifeformTechnologyType.generalOverhaul_battlecruiser]: 'general-overhaul_battlecruiser',
+            [LifeformTechnologyType.generalOverhaul_bomber]: 'general-overhaul_bomber',
+            [LifeformTechnologyType.generalOverhaul_destroyer]: 'general-overhaul_destroyer',
+            [LifeformTechnologyType.experimentalWeaponsTechnology]: 'experimental-weapons-technology',
+            [LifeformTechnologyType.mechanGeneralEnhancement]: 'mechan-general-enhancement',
+
+            [LifeformTechnologyType.heatRecovery]: 'heat-recovery',
+            [LifeformTechnologyType.sulphideProcess]: 'sulphide-process',
+            [LifeformTechnologyType.psionicNetwork]: 'psionic-network',
+            [LifeformTechnologyType.telekineticTractorBeam]: 'telekinetic-tractor-beam',
+            [LifeformTechnologyType.enhancedSensorTechnology]: 'enhanced-sensor-technology',
+            [LifeformTechnologyType.neuromodalCompressor]: 'neuromodal-compressor',
+            [LifeformTechnologyType.neuroInterface]: 'neuro-interface',
+            [LifeformTechnologyType.interplanetaryAnalysisNetwork]: 'interplanetary-analysis-network',
+            [LifeformTechnologyType.overclocking_heavyFighter]: 'overclocking_heavy-fighter',
+            [LifeformTechnologyType.telekineticDrive]: 'telekinetic-drive',
+            [LifeformTechnologyType.sixthSense]: 'sixth-sense',
+            [LifeformTechnologyType.psychoharmoniser]: 'psychoharmoniser',
+            [LifeformTechnologyType.efficientSwarmIntelligence]: 'efficient-swarm-intelligence',
+            [LifeformTechnologyType.overclocking_largeCargo]: 'overclocking_large-cargo',
+            [LifeformTechnologyType.gravitationSensors]: 'gravitation-sensors',
+            [LifeformTechnologyType.overclocking_battleship]: 'overclocking_battleship',
+            [LifeformTechnologyType.psionicShieldMatrix]: 'psionic-shield-matrix',
+            [LifeformTechnologyType.kaeleshDiscovererEnhancement]: 'kaelesh-discoverer-enhancement',
+        };
+
+        const names = {
+            [LifeformBuildingType.residentialSector]: 'Residential Sector',
+            [LifeformBuildingType.biosphereFarm]: 'Biosphere Farm',
+            [LifeformBuildingType.researchCentre]: 'Research Centre',
+            [LifeformBuildingType.academyOfSciences]: 'Academy of Sciences',
+            [LifeformBuildingType.neuroCalibrationCentre]: 'Neuro-Calibration Centre',
+            [LifeformBuildingType.highEnergySmelting]: 'High Energy Smelting',
+            [LifeformBuildingType.foodSilo]: 'Food Silo',
+            [LifeformBuildingType.fusionPoweredProduction]: 'Fusion-Powered Production',
+            [LifeformBuildingType.skyscraper]: 'Skyscraper',
+            [LifeformBuildingType.biotechLab]: 'Biotech Lab',
+            [LifeformBuildingType.metropolis]: 'Metropolis',
+            [LifeformBuildingType.planetaryShield]: 'Planetary Shield',
+
+            [LifeformBuildingType.meditationEnclave]: 'Meditation Enclave',
+            [LifeformBuildingType.crystalFarm]: 'Crystal Farm',
+            [LifeformBuildingType.runeTechnologium]: 'Rune Technologium',
+            [LifeformBuildingType.runeForge]: 'Rune Forge',
+            [LifeformBuildingType.oriktorium]: 'Oriktorium',
+            [LifeformBuildingType.magmaForge]: 'Magma Forge',
+            [LifeformBuildingType.disruptionChamber]: 'Disruption Chamber',
+            [LifeformBuildingType.megalith]: 'Megalith',
+            [LifeformBuildingType.crystalRefinery]: 'Crystal Refinery',
+            [LifeformBuildingType.deuteriumSynthesiser]: 'Deuterium Synthesiser',
+            [LifeformBuildingType.mineralResearchCentre]: 'Mineral Research Centre',
+            [LifeformBuildingType.advancedRecyclingPlant]: 'Advanced Recycling Plant',
+
+            [LifeformBuildingType.assemblyLine]: 'Assembly Line',
+            [LifeformBuildingType.fusionCellFactory]: 'Fusion Cell Factory',
+            [LifeformBuildingType.roboticsResearchCentre]: 'Robotics Research Centre',
+            [LifeformBuildingType.updateNetwork]: 'Update Network',
+            [LifeformBuildingType.quantumComputerCentre]: 'Quantum Computer Centre',
+            [LifeformBuildingType.automatisedAssemblyCentre]: 'Automatised Assembly Centre',
+            [LifeformBuildingType.highPerformanceTransformer]: 'High-Performance Transformer',
+            [LifeformBuildingType.microchipAssemblyLine]: 'Microchip Assembly Line',
+            [LifeformBuildingType.productionAssemblyHall]: 'Production Assembly Hall',
+            [LifeformBuildingType.highPerformanceSynthesiser]: 'High-Performance Synthesiser',
+            [LifeformBuildingType.chipMassProduction]: 'Chip Mass Production',
+            [LifeformBuildingType.nanoRepairBots]: 'Nano Repair Bots',
+
+            [LifeformBuildingType.sanctuary]: 'Sanctuary',
+            [LifeformBuildingType.antimatterCondenser]: 'Antimatter Condenser',
+            [LifeformBuildingType.vortexChamber]: 'Vortex Chamber',
+            [LifeformBuildingType.hallsOfRealisation]: 'Halls of Realisation',
+            [LifeformBuildingType.forumOfTranscendence]: 'Forum of Transcendence',
+            [LifeformBuildingType.antimatterConvector]: 'Antimatter Convector',
+            [LifeformBuildingType.cloningLaboratory]: 'Cloning Laboratory',
+            [LifeformBuildingType.chrysalisAccelerator]: 'Chrysalis Accelerator',
+            [LifeformBuildingType.bioModifier]: 'Bio Modifier',
+            [LifeformBuildingType.psionicModulator]: 'Psionic Modulator',
+            [LifeformBuildingType.shipManufacturingHall]: 'Ship Manufacturing Hall',
+            [LifeformBuildingType.supraRefractor]: 'Supra Refractor',
+
+
+            [LifeformTechnologyType.intergalacticEnvoys]: 'Intergalactic Envoys',
+            [LifeformTechnologyType.highPerformanceExtractors]: 'High-Performance Extractors',
+            [LifeformTechnologyType.fusionDrives]: 'Fusion Drives',
+            [LifeformTechnologyType.stealthFieldGenerator]: 'Stealth Field Generator',
+            [LifeformTechnologyType.orbitalDen]: 'Orbital Den',
+            [LifeformTechnologyType.researchAI]: 'Research AI',
+            [LifeformTechnologyType.highPerformanceTerraformer]: 'High-Performance Terraformer',
+            [LifeformTechnologyType.enhancedProductionTechnologies]: 'Enhanced Production Technologies',
+            [LifeformTechnologyType.lightFighterMkII]: 'Light Fighter Mk II',
+            [LifeformTechnologyType.cruiserMkII]: 'Cruiser Mk II',
+            [LifeformTechnologyType.improvedLabTechnology]: 'Improved Lab Technology',
+            [LifeformTechnologyType.plasmaTerraformer]: 'Plasma Terraformer',
+            [LifeformTechnologyType.lowTemperatureDrives]: 'Low-Temperature Drives',
+            [LifeformTechnologyType.bomberMkII]: 'Bomber Mk II',
+            [LifeformTechnologyType.destroyerMkII]: 'Destroyer Mk II',
+            [LifeformTechnologyType.battlecruiserMkII]: 'Battlecruiser Mk II',
+            [LifeformTechnologyType.robotAssistants]: 'Robot Assistants',
+            [LifeformTechnologyType.supercomputer]: 'Supercomputer',
+
+            [LifeformTechnologyType.volcanicBatteries]: 'Volcanic Batteries',
+            [LifeformTechnologyType.acousticScanning]: 'Acoustic Scanning',
+            [LifeformTechnologyType.highEnergyPumpSystems]: 'High Energy Pump Systems',
+            [LifeformTechnologyType.cargoHoldExpansion_CivilianShips]: 'Cargo Hold Expansion (Civilian Ships)',
+            [LifeformTechnologyType.magmaPoweredProduction]: 'Magma-Powered Production',
+            [LifeformTechnologyType.geothermalPowerPlants]: 'Geothermal Power Plants',
+            [LifeformTechnologyType.depthSounding]: 'Depth Sounding',
+            [LifeformTechnologyType.ionCrystalEnhancement_heavyFighter]: 'Ion Crystal Enhancement (Heavy Fighter)',
+            [LifeformTechnologyType.improvedStellarator]: 'Improved Stellarator',
+            [LifeformTechnologyType.hardenedDiamondDrillHeads]: 'Hardened Diamond Drill Heads',
+            [LifeformTechnologyType.seismicMiningTechnology]: 'Seismic Mining Technology',
+            [LifeformTechnologyType.magmaPoweredPumpSystems]: 'Magma-Powered Pump Systems',
+            [LifeformTechnologyType.ionCrystalModules]: 'Ion Crystal Modules',
+            [LifeformTechnologyType.optimisedSiloConstructionMethod]: 'Optimised Silo Construction Method',
+            [LifeformTechnologyType.diamondEnergyTransmitter]: 'Diamond Energy Transmitter',
+            [LifeformTechnologyType.obsidianShieldReinforcement]: 'Obsidian Shield Reinforcement',
+            [LifeformTechnologyType.runeShields]: 'Rune Shields',
+            [LifeformTechnologyType.rocktalCollectorEnhancement]: 'Rock\'tal Collector Enhancement',
+
+            [LifeformTechnologyType.catalyserTechnology]: 'Catalyser Technology',
+            [LifeformTechnologyType.plasmaDrive]: 'Plasma Drive',
+            [LifeformTechnologyType.efficiencyModule]: 'Efficiency Module',
+            [LifeformTechnologyType.depotAI]: 'Depot AI',
+            [LifeformTechnologyType.generalOverhaul_lightFighter]: 'General Overhaul (Light Fighter)',
+            [LifeformTechnologyType.automatedTransportLines]: 'Automated Transport Lines',
+            [LifeformTechnologyType.improvedDroneAI]: 'Improved Drone AI',
+            [LifeformTechnologyType.experimentalRecyclingTechnology]: 'Experimental Recycling Technology',
+            [LifeformTechnologyType.generalOverhaul_cruiser]: 'General Overhaul (Cruiser)',
+            [LifeformTechnologyType.slingshotAutopilot]: 'Slingshot Autopilot',
+            [LifeformTechnologyType.highTemperatureSuperconductors]: 'High-Temperature Superconductors',
+            [LifeformTechnologyType.generalOverhaul_battleship]: 'General Overhaul (Battleship)',
+            [LifeformTechnologyType.artificialSwarmIntelligence]: 'Artificial Swarm Intelligence',
+            [LifeformTechnologyType.generalOverhaul_battlecruiser]: 'General Overhaul (Battlecruiser)',
+            [LifeformTechnologyType.generalOverhaul_bomber]: 'General Overhaul (Bomber)',
+            [LifeformTechnologyType.generalOverhaul_destroyer]: 'General Overhaul (Destroyer)',
+            [LifeformTechnologyType.experimentalWeaponsTechnology]: 'Experimental Weapons Technology',
+            [LifeformTechnologyType.mechanGeneralEnhancement]: 'Mechan General Enhancement',
+
+            [LifeformTechnologyType.heatRecovery]: 'Heat Recovery',
+            [LifeformTechnologyType.sulphideProcess]: 'Sulphide Process',
+            [LifeformTechnologyType.psionicNetwork]: 'Psionic Network',
+            [LifeformTechnologyType.telekineticTractorBeam]: 'Telekinetic Tractor Beam',
+            [LifeformTechnologyType.enhancedSensorTechnology]: 'Enhanced Sensor Technology',
+            [LifeformTechnologyType.neuromodalCompressor]: 'Neuromodal Compressor',
+            [LifeformTechnologyType.neuroInterface]: 'Neuro-Interface',
+            [LifeformTechnologyType.interplanetaryAnalysisNetwork]: 'Interplanetary Analysis Network',
+            [LifeformTechnologyType.overclocking_heavyFighter]: 'Overclocking (Heavy Fighter)',
+            [LifeformTechnologyType.telekineticDrive]: 'Telekinetic Drive',
+            [LifeformTechnologyType.sixthSense]: 'Sixth Sense',
+            [LifeformTechnologyType.psychoharmoniser]: 'Psychoharmoniser',
+            [LifeformTechnologyType.efficientSwarmIntelligence]: 'Efficient Swarm Intelligence',
+            [LifeformTechnologyType.overclocking_largeCargo]: 'Overclocking (Large Cargo)',
+            [LifeformTechnologyType.gravitationSensors]: 'Gravitation Sensors',
+            [LifeformTechnologyType.overclocking_battleship]: 'Overclocking (Battleship)',
+            [LifeformTechnologyType.psionicShieldMatrix]: 'Psionic Shield Matrix',
+            [LifeformTechnologyType.kaeleshDiscovererEnhancement]: 'Kaelesh Discoverer Enhancement',
+        };
+
+        const getTechHtml = (image) => `
+            <div
+                class="o-lifeform-tech"
+                style="background-image: url(${image}.png)"
+            ></div>
+        `;
+
+        const caps = {
+            'Reduktion LF-Forschungskosten': {
+                max: 0.25,
+                techs: [11103, 12103, 13103, 14103],
+            },
+            'Reduktion LF-Forschungszeit': {
+                max: 0.99,
+                techs: [11103, 12103, 13103, 14103, 11206, 11211, 11217, 14207, 14213],
+            },
+            'Reduktion Food-Verbrauch (Menschen)': {
+                max: 0.8,
+                techs: [11107],
+            },
+            'Reduktion Food-Verbrauch (Kaelesh)': {
+                max: 0.5,
+                techs: [14106],
+            },
+            'Boost LF-Forschungen': {
+                max: 1,
+                techs: [11111, 13107, 13111],
+            },
+            'Lebensform-Schutz': {
+                max: 0.8,
+                techs: [11112],
+            },
+            'Automatischer TF-Abbau': {
+                max: 0.3,
+                techs: [12112],
+            },
+            'Bonus Raumdock': {
+                max: 0.5,
+                techs: [13112],
+            },
+            'Reduktion Energieverbrauch': {
+                max: 0.4,
+                techs: [12107],
+            },
+            'Reduktion Energieverbrauch (Crawler)': {
+                max: 0.5,
+                techs: [12213],
+            },
+            'Reduktion Baukosten (Rocktal-Gebäude)': {
+                max: 0.5,
+                techs: [12108],
+            },
+            'Reduktion Bauzeit (Rocktal-Gebäude)': {
+                max: 0.5,
+                techs: [12108],
+            },
+            'Reduktion Baukosten (Minen)': {
+                max: 0.5,
+                techs: [12111],
+            },
+            'Reduktion Baukosten (Terraformer)': {
+                max: 0.5,
+                techs: [11207, 11212],
+            },
+            'Reduktion Bauzeit (Terraformer)': {
+                max: 0.99,
+                techs: [11207, 11212],
+            },
+            'Reduktion Baukosten (Raketensilo)': {
+                max: 0.5,
+                techs: [12214],
+            },
+            'Reduktion Bauzeit (Raketensilo)': {
+                max: 0.99,
+                techs: [12214],
+            },
+            'Reduktion Baukosten (Allianzdepot)': {
+                max: 0.5,
+                techs: [13204],
+            },
+            'Reduktion Bauzeit (Allianzdepot)': {
+                max: 0.99,
+                techs: [13204],
+            },
+            'Reduktion Bauzeit Schiffe (Mechas)': {
+                max: 0.99,
+                techs: [13106],
+            },
+            'Reduktion Bauzeit Schiffe (Kaelesh)': {
+                max: 0.7,
+                techs: [13111],
+            },
+            'Reduktion Treibstoffverbrauch': {
+                max: 0.3,
+                techs: [13203, 14201],
+            },
+            'Rückgewinn Treibstoffkosten bei Flottenrückruf': {
+                max: 0.9,
+                techs: [13210],
+            },
+            'Reduktion Populationsgröße für LF-Forschungsslot': {
+                max: 0.25,
+                techs: [14109],
+            },
+            'Bonus Mondchance': {
+                max: 0.3,
+                techs: [14112],
+            },
+            'Reduktion Chance Flottenverlust auf Expeditionen': {
+                max: 0.5,
+                techs: [14203],
+            },
+            'Reduktion Forschungszeit': {
+                max: 0.99,
+                techs: [11206, 11211, 11217, 14207, 14213],
+            },
+            'Reduktion Forschungskosten (Energietechnik)': {
+                max: 0.5,
+                techs: [12215, 13211],
+            },
+            'Reduktion Forschungszeit (Energietechnik)': {
+                max: 0.99,
+                techs: [12215, 13211],
+            },
+            'Reduktion Forschungskosten (Plasmatechnik)': {
+                max: 0.5,
+                techs: [12209],
+            },
+            'Reduktion Forschungszeit (Plasmatechnik)': {
+                max: 0.99,
+                techs: [12209],
+            },
+            'Reduktion Forschungskosten (Spionagetechnik)': {
+                max: 0.5,
+                techs: [11204, 11213, 13207],
+            },
+            'Reduktion Forschungszeit (Spionagetechnik)': {
+                max: 0.99,
+                techs: [11204, 11213, 13207],
+            },
+            'Reduktion Forschungszeit (Astrophysik)': {
+                max: 0.99,
+                techs: [11218],
+            },
+            'Reduktion Forschungskosten (Waffentechnik)': {
+                max: 0.5,
+                techs: [13217],
+            },
+            'Reduktion Forschungszeit (Waffentechnik)': {
+                max: 0.99,
+                techs: [13217],
+            },
+            'Reduktion Forschungskosten (Schildtechnik)': {
+                max: 0.5,
+                techs: [14217],
+            },
+            'Reduktion Forschungszeit (Schildtechnik)': {
+                max: 0.99,
+                techs: [14217],
+            },
+            'Reduktion Forschungskosten (Raumschiffpanzerung)': {
+                max: 0.5,
+                techs: [12217],
+            },
+            'Reduktion Forschungszeit (Raumschiffpanzerung)': {
+                max: 0.99,
+                techs: [12217],
+            },
+        };
+
+        const htmls = [];
+        Object.entries(caps).forEach(entry => {
+            const [name, config] = entry;
+
+            const html = `
+                <tr>
+                    <td>${name}</td>
+                    <td>${config.max * 100}%</td>
+                    <td><div class="techs">${config.techs.map(tech => `<div>${getTechHtml(imageMap[tech])} <span>${names[tech]}</span></div>`).join('')}</div></td>
+                </tr>
+            `;
+            htmls.push(html);
+        });
+
+        window.addEventListener('load', () => {
+            document.body.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Was</th>
+                            <th>Maximum</th>
+                            <th>Gebäude/Forschungen</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        ${htmls.join('')}
+                    </tbody>
+                </table>
+            `;
+        });
+    </script>
+    <style>
+        body {
+            display: inline-grid;
+            grid-template-columns: minmax(auto, 250px) auto auto;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #1a3e61;
+            color: white;
+        }
+
+        th {
+            padding: 12px 0;
+        }
+        td {
+            padding: 6px 12px;
+        }
+
+        tbody tr {
+            background: #bfc4c9;
+        }
+
+        tbody tr:nth-of-type(odd) {
+            background: #d1d9e0;
+        }
+
+        .row>.name {
+            padding-left: 8px;
+        }
+
+        .row:nth-of-type(odd)>* {
+            background: #bbb;
+        }
+
+        .techs {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            justify-self: start;
+        }
+
+        .techs>div {
+            display: inline-grid;
+            width: 150px;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+        }
+
+        * {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .o-lifeform-tech {
+            font-size: 48px;
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: -moz-crisp-edges;
+            border-radius: 4px;
+            border: 1px solid;
+
+            &--disabled {
+                filter: grayscale(1) brightness(0.7) contrast(1.2);
+            }
+
+            &--humans {
+                border-color: #7ec000;
+            }
+
+            &--rocktal {
+                border-color: #df6642;
+            }
+
+            &--mechas {
+                border-color: #4b91e7;
+            }
+
+            &--kaelesh {
+                border-color: #9863e9;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+</html>
